@@ -1,2 +1,26 @@
 # Transport-Management-System
-Transport Management System built using MERN Stack (MongoDB, Express.js, React.js, Node.js)
+
+📌 Overview 
+
+✨ Features
+- Shipment Management
+- Driver Management
+- Vehicle Management
+- Authentication
+- Dashboard
+- CRUD Operations
+
+🛠 Tech Stack
+- React
+- Node.js
+- Express
+- MongoDB
+
+⚙ Installation
+
+📷 Screenshots
+
+🚀 Future Improvements
+
+👨‍💻 Author
+PARTHIV PATEL
