@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settlement Hub | TMS Pro Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --tms-primary: #4361ee;
+            --tms-dark: #0b090a;
+            --sidebar-width: 260px;
+            --rp-blue: #3395ff;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Inter', sans-serif;
+            color: #2b2d42;
+        }
+
+        /* --- UNIFIED SIDEBAR --- */
+        .sidebar {
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--tms-dark);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 2rem;
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            padding: 0 1.5rem 2rem;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar a {
+            color: #8d99ae;
+            padding: 12px 1.5rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: 0.3s;
+            border-right: 4px solid transparent;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border-right-color: var(--tms-primary);
+        }
+
+        /* --- CONTENT AREA --- */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            padding: 2.5rem;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 24px;
+            margin-bottom: 2rem;
+            border: 1px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- RAZORPAY STYLE STATS --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        /* --- SEARCH BOX --- */
+        .search-container {
+            max-width: 450px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 4px 15px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .search-container:focus-within {
+            border-color: var(--tms-primary);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+        }
+
+        /* --- UPDATED PAYMENT TABLE (RAZORPAY STYLE) --- */
+        .tms-card {
+            background: white;
+            border-radius: 12px;
+            /* Smoother, professional radius */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 0.65rem;
+            /* Smaller, crisp headers */
+            text-transform: uppercase;
+            padding: 16px 20px;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table tbody td {
+            padding: 22px 20px;
+            /* Increased vertical padding for "Airy" look */
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+            font-size: 0.85rem;
+        }
+
+        /* Method Tag Styles */
+        .method-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #1e293b;
+        }
+
+        .method-icon {
+            width: 34px;
+            height: 18px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .m-online {
+            background: #e0e7ff;
+            color: #4361ee;
+        }
+
+        .m-cod {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Status Pills - Updated to Match Screenshot */
+        .status-pill {
+            padding: 5px 12px;
+            border-radius: 6px;
+            /* Rectangular-rounded look */
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        /* Green: Paid/Captured */
+        .st-captured {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bdf2d5;
+        }
+
+        /* Orange: Pending */
+        .st-pending {
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #ffedd5;
+        }
+
+        /* Verified Badge Style */
+        .verified-text {
+           color: #10854d;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Settle Button Style */
+        .btn-settle-cash {
+            background: #10854d;
+            color: white;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .btn-settle-cash:hover {
+            background: #0d6e3f;
+            box-shadow: 0 4px 10px rgba(16, 133, 77, 0.25);
+        }
+
+        .trash-icon-btn {
+            color: #fca5a5;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.2s;
+            margin-left: 10px;
+        }
+
+        .trash-icon-btn:hover {
+            color: #ef4444;
+        }
+
+        /* Razorpay-style Settle Button */
+        .btn-settle-cash {
+            background: #10854d !important;
+            /* The specific Green from your screenshot */
+            color: white !important;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(16, 133, 77, 0.1);
+        }
+
+        .btn-settle-cash:hover {
+            background: #0d6e3f !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 133, 77, 0.2);
+        }
+
+        /* Icon inside the button */
+        .btn-settle-cash i {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-brand"><i class="bi bi-shield-check-fill text-primary me-2"></i> TMS PRO</div>
+        <a href="admin_dashboard.html"><i class="bi bi-grid-1x2-fill me-3"></i> Dashboard</a>
+        <a href="manage_users.html"><i class="bi bi-people-fill me-3"></i> Users</a>
+        <a href="manage_shipments.html"><i class="bi bi-truck-flatbed me-3"></i> Shipments</a>
+        <a href="manage_payments.html" class="active"><i class="bi bi-credit-card-2-back me-3"></i> Payments</a>
+        <a href="manage_fleet.html"><i class="bi bi-truck me-3"></i> Fleet</a>
+        <a href="live_tracking.html"><i class="bi bi-geo-alt-fill me-3"></i> Tracking</a>
+        <a href="manage_contacts.html"><i class="bi bi-chat-left-dots-fill me-3"></i> Inquiries</a>
+        <div style="position: absolute; bottom: 20px; width: 100%;">
+            <a href="login.html" class="text-danger border-0"><i class="bi bi-power me-3"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="glass-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1">Settlement Hub</h3>
+                <p class="text-muted small mb-0">Monitor financial protocols and transaction health.</p>
+            </div>
+            <button class="btn btn-primary px-4 py-2 fw-bold shadow-sm" style="border-radius:12px;"
+                onclick="loadPayments()">
+                <i class="bi bi-arrow-clockwise me-2"></i>REFRESH LEDGER
+            </button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Volume</div>
+                <div class="value text-primary" id="totalVol">₹ 0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Settled (Online)</div>
+                <div class="value text-success" id="onlineCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">COD Pending</div>
+                <div class="value text-warning" id="codCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">System Uptime</div>
+                <div class="value">99.9%</div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="search-container">
+                <i class="bi bi-search text-muted"></i>
+                <input type="text" id="paySearch" placeholder="Search Payment ID, Customer or Status..."
+                    onkeyup="filterPayments()">
+            </div>
+            <div class="text-muted small">Real-time Settlement Link: <span class="text-success fw-bold">ACTIVE</span>
+            </div>
+        </div>
+
+        <div class="tms-card">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 border-0">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Amount</th>
+                            <th>Customer Identity</th>
+                            <th>Settlement Mode</th>
+                            <th>Protocol Status</th>
+                            <th class="text-end">Timestamp</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // --- 1. CORE DATA LOADER ---
+    async function loadPayments() {
+        try {
+            const res = await fetch('/api/shipments?t=' + Date.now());
+            const shipments = await res.json();
+
+            let totalAmount = 0;
+            let codsCount = 0;
+            let onlinesCount = 0;
+
+            const html = shipments.map(s => {
+                const weightNum = parseFloat(s.weight) || 0;
+                const price = weightNum * 3000;
+                totalAmount += price;
+
+                const isCOD = s.paymentStatus && s.paymentStatus.toUpperCase().includes("COD");
+                const isPaid = s.paymentStatus && s.paymentStatus.toLowerCase().includes('paid');
+
+                isCOD ? codsCount++ : onlinesCount++;
+
+                const methodTag = isCOD ?
+                    `<div class="method-tag"><span class="method-icon m-cod">COD</span><span class="text-dark">Cash</span></div>` :
+                    `<div class="method-tag"><span class="method-icon m-online">RAZ</span><span class="text-dark">Online</span></div>`;
+
+                // --- ACTION LOGIC FIXED ---
+                let actionContent = '';
+                if (isCOD && !isPaid) {
+                    actionContent = `
+                        <button class="btn-settle-cash" onclick="settleCODPayment('${s._id}')">
+                            <i class="bi bi-cash-stack"></i> SETTLE CASH
+                        </button>`;
+                } else if (isPaid) {
+                    actionContent = `<span class="verified-text"><i class="bi bi-check-circle-fill"></i> VERIFIED</span>`;
+                } else {
+                    actionContent = `<span class="text-muted small"><i class="bi bi-clock-history"></i> PENDING</span>`;
+                }
+
+               return `
+<tr>
+    <td><span class="fw-bold text-primary" style="font-size: 0.9rem;">#${s.paymentID || 'INIT_PROT'}</span></td>
+    <td><span class="fw-bold text-dark">₹${price.toLocaleString()}</span></td>
+    <td>
+        <div class="fw-bold text-dark" style="font-size: 0.9rem;">${s.customerName}</div>
+        <div class="text-muted" style="font-size: 0.75rem;">Ref: #${s.shipmentID}</div>
+    </td>
+    <td>${methodTag}</td>
+    <td>
+        <span class="status-pill ${isPaid ? 'st-captured' : 'st-pending'}">
+            ${s.paymentStatus || 'Awaiting'}
+        </span>
+    </td>
+    <td>
+        ${isPaid ? 
+            `<span class="verified-text"><i class="bi bi-check-circle-fill"></i> VERIFIED</span>` : 
+            `<span class="text-muted small fw-bold" style="opacity:0.6"><i class="bi bi-clock"></i> PENDING</span>`}
+    </td>
+    <td class="text-end">
+        <div class="d-flex align-items-center justify-content-end gap-3">
+            ${isCOD && !isPaid ? 
+                `<button class="btn-settle-cash" onclick="settleCODPayment('${s._id}')">
+                    <i class="bi bi-cash-stack"></i> SETTLE CASH
+                </button>` : ''}
+            <i class="bi bi-trash3 trash-icon-btn" onclick="deletePaymentRecord('${s._id}')"></i>
+        </div>
+    </td>
+</tr>`;
+            }).join('');
+
+            document.getElementById('payTableBody').innerHTML = html || '<tr><td colspan="6" class="text-center py-5 text-muted">No financial logs found.</td></tr>';
+            document.getElementById('totalVol').innerText = "₹ " + totalAmount.toLocaleString();
+            document.getElementById('codCount').innerText = codsCount;
+            document.getElementById('onlineCount').innerText = onlinesCount;
+
+        } catch (err) {
+            console.error("Sync Failure:", err);
+        }
+    }
+
+    // --- 2. COD SETTLEMENT LOGIC ---
+    async function settleCODPayment(mongoId) {
+        if (!confirm("CONFIRM CASH SETTLEMENT: Has the driver verified the physical cash collection?")) return;
+        try {
+            const res = await fetch(`/api/shipments/${mongoId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentStatus: "Paid (COD)" })
+            });
+            if (res.ok) {
+                loadPayments();
+            }
+        } catch (err) {
+            alert("❌ Update failed.");
+        }
+    }
+
+    // --- 3. DELETE LOGIC ---
+    async function deletePaymentRecord(mongoId) {
+        if (!confirm("⚠️ Permanently remove this record?")) return;
+        try {
+            const res = await fetch(`/api/shipments/${mongoId}`, { method: 'DELETE' });
+            if (res.ok) loadPayments();
+        } catch (err) {
+            alert("❌ Deletion Failed.");
+        }
+    }
+
+    // --- 4. SEARCH FILTER ---
+    function filterPayments() {
+        const term = document.getElementById('paySearch').value.toLowerCase();
+        const rows = document.querySelectorAll('#payTableBody tr');
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(term) ? '' : 'none';
+        });
+    }
+
+    window.onload = loadPayments;
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

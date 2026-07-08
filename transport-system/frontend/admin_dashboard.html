@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Control Hub | TMS Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --tms-primary: #4361ee;
+            --tms-dark: #0b090a;
+            --sidebar-width: 260px;
+        }
+
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; color: #2b2d42; }
+
+        /* --- UNIFIED SIDEBAR --- */
+        .sidebar { 
+            height: 100vh; width: var(--sidebar-width); background: var(--tms-dark); 
+            color: white; position: fixed; top: 0; left: 0; padding-top: 2rem; z-index: 1000;
+        }
+        .sidebar-brand { padding: 0 1.5rem 2rem; color: white; font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; }
+        .sidebar a { 
+            color: #8d99ae; padding: 12px 1.5rem; display: flex; align-items: center; 
+            text-decoration: none; transition: 0.3s; border-right: 4px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active { 
+            color: white; background: rgba(255,255,255,0.05); border-right-color: var(--tms-primary);
+        }
+
+        .main-content { margin-left: var(--sidebar-width); padding: 2.5rem; }
+
+        /* --- GLASS HEADER --- */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem; border-radius: 24px; margin-bottom: 2rem;
+            border: 1px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        /* --- STAT CARDS --- */
+        .stat-card {
+            background: white; border-radius: 24px; padding: 1.5rem; border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+        }
+        .stat-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        
+        .stat-icon {
+            width: 48px; height: 48px; border-radius: 14px; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem;
+        }
+        .icon-blue { background: #e0e7ff; color: #4361ee; }
+        .icon-orange { background: #ffedd5; color: #f59e0b; }
+        .icon-green { background: #dcfce7; color: #10b981; }
+        .icon-purple { background: #f3e8ff; color: #a855f7; }
+
+        /* --- DASHBOARD CARDS --- */
+        .tms-card { 
+            background: white; border-radius: 24px; padding: 1.5rem; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        
+        .table thead th { 
+            background: #f8fafc; color: #64748b; font-size: 0.7rem; 
+            text-transform: uppercase; padding: 15px; letter-spacing: 1px;
+        }
+
+        .status-pill { padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .status-pending { background: #fff7ed; color: #c2410c; }
+        .status-delivered { background: #dcfce7; color: #15803d; }
+
+        .btn-command { border-radius: 14px; padding: 12px; font-weight: 600; transition: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-brand"><i class="bi bi-shield-check-fill text-primary me-2"></i> TMS PRO</div>
+        <a href="admin_dashboard.html" class="active"><i class="bi bi-grid-1x2-fill me-3"></i> Dashboard</a>
+        <a href="manage_users.html"><i class="bi bi-people-fill me-3"></i> Users</a>
+        <a href="manage_shipments.html"><i class="bi bi-truck-flatbed me-3"></i> Shipments</a>
+        <a href="manage_payments.html"><i class="bi bi-credit-card-2-back me-3"></i> Payments</a>
+        <a href="manage_fleet.html"><i class="bi bi-truck me-3"></i> Fleet</a>
+        <a href="live_tracking.html"><i class="bi bi-geo-alt-fill me-3"></i> Tracking</a>
+        <a href="manage_contacts.html"><i class="bi bi-chat-left-dots-fill me-3"></i> Inquiries</a>
+        <div style="position: absolute; bottom: 20px; width: 100%;">
+            <a href="login.html" class="text-danger border-0"><i class="bi bi-power me-3"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <header class="glass-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1">Intelligence Overview</h3>
+                <p class="text-muted small mb-0">Live operational metrics and revenue tracking.</p>
+            </div>
+            <div class="d-flex align-items-center bg-white p-2 rounded-4 border shadow-sm px-3">
+                <img src="https://ui-avatars.com/api/?name=Parth&background=4361ee&color=fff" class="rounded-circle me-2" width="35">
+                <div>
+                    <p class="small fw-bold m-0">Parth Dev</p>
+                    <p class="small m-0 text-muted" style="font-size: 10px;">Root Administrator</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue"><i class="bi bi-truck"></i></div>
+                    <h2 id="count-vehicles" class="fw-bold m-0">0</h2>
+                    <p class="text-muted small mb-0">Active Fleet Units</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-orange"><i class="bi bi-lightning-charge"></i></div>
+                    <h2 id="count-trips" class="fw-bold m-0">0</h2>
+                    <p class="text-muted small mb-0">Live Transit Protocols</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-green"><i class="bi bi-wallet2"></i></div>
+                    <h2 id="revenue-vol" class="fw-bold m-0">₹0</h2>
+                    <p class="text-muted small mb-0">Settlement Volume</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple"><i class="bi bi-people"></i></div>
+                    <h2 id="count-drivers" class="fw-bold m-0">0</h2>
+                    <p class="text-muted small mb-0">Authorized Personnel</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="tms-card">
+                    <h5 class="fw-bold mb-4">Financial Flow Analytics</h5>
+                    <div style="height: 320px; position: relative; width: 100%;">
+                        <canvas id="paymentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="tms-card">
+                    <h5 class="fw-bold mb-4">Command Center</h5>
+                    <div class="d-grid gap-3">
+                        <a href="manage_shipments.html" class="btn btn-primary btn-command text-start shadow-sm">
+                            <i class="bi bi-plus-square-dotted me-2"></i> New Shipment
+                        </a>
+                        <a href="live_tracking.html" class="btn btn-outline-dark btn-command text-start">
+                            <i class="bi bi-geo-alt-fill me-2 text-primary"></i> Deploy Fleet Monitor
+                        </a>
+                        <div class="p-3 bg-light rounded-4 mt-2 border">
+                            <p class="small text-muted mb-1 fw-bold">SYSTEM INTEGRITY</p>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-success rounded-circle p-1 me-2"><i class="bi bi-check"></i></span>
+                                <span class="small fw-bold">Satellite Protocol Stable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="tms-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold m-0">Recent Operational Logs</h5>
+                        <a href="manage_shipments.html" class="btn btn-light btn-sm fw-bold px-3">View All Logs</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Protocol ID</th>
+                                    <th>Client Specification</th>
+                                    <th>Assigned Unit</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myChart = null; // Global instance for safety
+
+        async function fetchStats() {
+            try {
+                // Fetch stats from backend with cache-busting
+                const res = await fetch('/api/dashboard-stats?t=' + Date.now());
+                if (!res.ok) throw new Error("Backend Offline");
+                const data = await res.json();
+                
+                // Update KPI values
+                document.getElementById('count-vehicles').innerText = data.vehicles || 0;
+                document.getElementById('count-trips').innerText = data.activeTrips || 0;
+                document.getElementById('count-drivers').innerText = data.drivers || 0;
+                
+                // Calculate Revenue (Price = weight * 3000)
+                const shipments = data.recentShipments || [];
+                const totalRev = shipments.reduce((acc, s) => acc + (parseFloat(s.weight || 0) * 3000), 0);
+                document.getElementById('revenue-vol').innerText = "₹" + totalRev.toLocaleString();
+
+                // Build Table
+                const tableBody = document.getElementById('recentTableBody');
+                if (shipments.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-5 text-muted">No operational records found.</td></tr>';
+                } else {
+                    tableBody.innerHTML = shipments.slice(0, 5).map(s => `
+                        <tr>
+                            <td class="fw-bold text-primary">#${s.shipmentID}</td>
+                            <td class="text-muted small fw-medium">${s.customerName}</td>
+                            <td><span class="badge bg-dark px-2 py-1" style="font-size:10px;">${s.assignedVehicle || 'WAITING'}</span></td>
+                            <td>
+                                <span class="status-pill ${s.status === 'Delivered' ? 'status-delivered' : 'status-pending'}">
+                                    ${s.status}
+                                </span>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Initial Chart with Shipment Data
+                initChart(shipments);
+
+            } catch (e) {
+                console.error("Dashboard Sync Failed:", e);
+            }
+        }
+
+        function initChart(shipments) {
+            const ctx = document.getElementById('paymentChart').getContext('2d');
+            
+            // Safety: Destroy old instance before making a new one to prevent "Infinity Loop"
+            if (myChart !== null) {
+                myChart.destroy();
+            }
+
+            // Prepare Data (using last 7 shipments)
+            const recentSet = shipments.slice(0, 7).reverse();
+            const labels = recentSet.length > 0 ? recentSet.map(s => "#" + s.shipmentID) : ["No Data"];
+            const values = recentSet.length > 0 ? recentSet.map(s => parseFloat(s.weight || 0) * 3000) : [0];
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: values,
+                        borderColor: '#4361ee',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#4361ee'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0b090a',
+                            padding: 12,
+                            displayColors: false,
+                            titleFont: { family: 'Inter', size: 14 }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { borderDash: [5, 5], color: '#e2e8f0' },
+                            ticks: { callback: v => '₹' + v.toLocaleString() }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Trigger logic when document is ready
+        document.addEventListener('DOMContentLoaded', fetchStats);
+    </script>
+</body>
+</html>

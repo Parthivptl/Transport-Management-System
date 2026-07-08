@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "nodemailer": "^8.0.4",
+    "razorpay": "^2.9.6",
+    "selenium-webdriver": "^4.42.0"
+  }
+}

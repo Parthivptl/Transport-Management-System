@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | TMS Pro Infrastructure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Global Transition (Same for all pages) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Standardized Hero Section --- */
+.hero-wrap {
+    position: relative;
+    /* This padding ensures the content starts below the fixed navbar */
+    padding: 160px 0 100px; 
+    min-height: 450px; /* Forces a consistent vertical size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), 
+                url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2000&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: adds a parallax effect */
+}
+
+/* Ensure Typography matches the About page */
+.hero-wrap h1 {
+    font-size: 3.5rem; /* Adjust based on your About page H1 size */
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+.hero-wrap p {
+    font-size: 1.15rem;
+    max-width: 650px;
+    margin: 0 auto;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+        .contact-icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(0,0,0,0.05);
+            height: 100%;
+            transition: 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .map-container {
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            height: 450px;
+        }
+
+        /* --- FAQ Accordion Styling --- */
+        .faq-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+        .accordion-item {
+            border: none;
+            margin-bottom: 15px;
+            border-radius: 16px !important;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .accordion-button {
+            font-weight: 600;
+            padding: 20px;
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(99, 102, 241, 0.05);
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <div class="bg-primary text-white rounded-3 p-2 me-2">
+                    <i class="bi bi-box-seize-fill"></i>
+                </div>
+                <span class="fw-bold fs-4 text-dark">TMS <span class="text-primary">PRO</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-grid-3x3-gap-fill fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="book_fleet.html">Book Fleet</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="track_shipment.html">Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="contact.html">Contact</a></li>
+                    <li class="nav-item ms-lg-4" id="auth-area">
+                        <a href="login.html" class="btn btn-dark px-4 py-2" style="border-radius: 12px;">Partner Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-wrap">
+        <div class="container reveal">
+            <h1 class="display-3 fw-800">Get in <span class="text-info">Touch</span></h1>
+            <p class="lead opacity-75 mx-auto" style="max-width: 700px;">Our global support infrastructure is active 24/7 to assist with your enterprise logistics requirements.</p>
+        </div>
+    </header>
+
+    <section class="section-padding bg-white">
+        <div class="container">
+            <div class="row g-4 mb-5 reveal">
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="contact-icon-box"><i class="bi bi-envelope-at-fill"></i></div>
+                        <h5 class="fw-bold">Email Support</h5>
+                        <p class="text-muted small">For general inquiries and partnerships.</p>
+                        <a href="mailto:support@tmspro.com" class="text-primary fw-bold text-decoration-none">support@tmspro.com</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="contact-icon-box"><i class="bi bi-telephone-fill"></i></div>
+                        <h5 class="fw-bold">Direct Line</h5>
+                        <p class="text-muted small">Mon-Fri from 9am to 6pm.</p>
+                        <a href="tel:+1800TMSPRO" class="text-primary fw-bold text-decoration-none">+1 (800) TMS-PRO-01</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="contact-icon-box"><i class="bi bi-chat-dots-fill"></i></div>
+                        <h5 class="fw-bold">24/7 Live Chat</h5>
+                        <p class="text-muted small">Speak to our AI dispatcher instantly.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none">Open Terminal →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-5 align-items-center mt-5 reveal">
+                <div class="col-lg-6">
+                    <div class="booking-engine shadow-none border p-4 p-md-5" style="margin-top: 0; border-radius: 24px;">
+                        <h3 class="fw-800 mb-4">Send a Message</h3>
+                        <form id="contactForm">
+                            <div class="mb-4">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control bg-light border-0 p-3" id="contactName" placeholder="John Doe" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Work Email</label>
+                                <input type="email" class="form-control bg-light border-0 p-3" id="contactEmail" placeholder="name@company.com" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control bg-light border-0 rounded-4 p-3" id="contactMessage" rows="4" placeholder="How can we help optimize your fleet?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold" style="border-radius: 12px;">Transmit Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="map-container">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover;" alt="Office">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container reveal">
+            <div class="text-center mb-5">
+                <h2 class="fw-800">Common <span class="text-primary">Inquiries</span></h2>
+                <p class="text-muted">Quick answers to our most frequent partner questions.</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="contactFaq">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How quickly does the support team respond?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#contactFaq">
+                                <div class="accordion-body text-muted">
+                                    Our enterprise support team typically responds within 2 business hours for priority partners and 6 hours for general inquiries.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Can I request a custom API integration?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#contactFaq">
+                                <div class="accordion-body text-muted">
+                                    Absolutely. Our technical infrastructure team specializes in building bespoke API bridges for ERP and warehouse management systems.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <footer class="footer-dark">
+        <div class="container text-start">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-title">TMS <span class="text-primary">PRO</span></div>
+                    <p class="small opacity-50">Enterprise-level transport management infrastructure built for speed, safety, and transparency across global supply chains.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <i class="bi bi-linkedin fs-5"></i><i class="bi bi-twitter-x fs-5"></i><i class="bi bi-facebook fs-5"></i>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Platform</h6>
+                    <a href="services.html" class="footer-link">Fleet Hub</a>
+                    <a href="track_shipment.html" class="footer-link">Tracking</a>
+                    <a href="book_fleet.html" class="footer-link">Booking</a>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Company</h6>
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="contact.html" class="footer-link">Cntact Us</a>
+                    <a href="login.html" class="footer-link">Admin Access</a>
+                </div>
+               
+            </div>
+            <hr class="mt-5 border-secondary opacity-25">
+            <p class="text-center pt-4 small opacity-50">&copy; 2026 TMS Pro Infrastructure. Developed by Parth Dev.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    /* --- Scroll Reveal Logic --- */
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+
+    window.onload = () => {
+        reveal();
+        const userData = localStorage.getItem('tms_user');
+        if (userData) {
+            const user = JSON.parse(userData);
+            const authArea = document.getElementById('auth-area');
+            if (authArea) {
+                authArea.innerHTML = `<span class="fw-bold text-dark me-3">Hi, ${user.name.split(' ')[0]}</span>
+                                      <button onclick="logoutUser()" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</button>`;
+            }
+            if (document.getElementById('contactName')) document.getElementById('contactName').value = user.name;
+            if (document.getElementById('contactEmail')) document.getElementById('contactEmail').value = user.email || '';
+        }
+    }
+
+    function logoutUser() {
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
+
+    /* --- Enhanced Submission Logic --- */
+    document.getElementById('contactForm').onsubmit = async (e) => {
+        e.preventDefault();
+        
+        const btn = e.target.querySelector('button');
+        const originalText = btn.innerHTML;
+
+        const formData = {
+            name: document.getElementById('contactName').value,
+            email: document.getElementById('contactEmail').value,
+            message: document.getElementById('contactMessage').value, // Fixed: using ID
+            date: new Date().toISOString(),
+            status: "New" 
+        };
+
+        try {
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Transmitting...`;
+
+            const response = await fetch('/api/queries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                alert("📡 Success! Inquiry logged in Admin Dashboard.");
+                e.target.reset();
+            } else {
+                throw new Error(result.error || "Server Error");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("❌ Connection Error: Ensure your backend server is running.");
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    }
+    </script>
+</body>
+</html>

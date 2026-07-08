@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Telemetry | TMS Pro Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --tms-primary: #4361ee;
+            --tms-dark: #0b090a;
+            --sidebar-width: 260px;
+        }
+
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; color: #2b2d42; }
+
+        /* --- UNIFIED SIDEBAR --- */
+        .sidebar { 
+            height: 100vh; width: var(--sidebar-width); background: var(--tms-dark); 
+            color: white; position: fixed; top: 0; left: 0; padding-top: 2rem; z-index: 1000;
+        }
+        .sidebar-brand { padding: 0 1.5rem 2rem; color: white; font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; }
+        .sidebar a { 
+            color: #8d99ae; padding: 12px 1.5rem; display: flex; align-items: center; 
+            text-decoration: none; transition: 0.3s; border-right: 4px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active { 
+            color: white; background: rgba(255,255,255,0.05); border-right-color: var(--tms-primary);
+        }
+
+        /* --- CONTENT AREA --- */
+        .main-wrapper { margin-left: var(--sidebar-width); padding: 2.5rem; }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem; border-radius: 24px; margin-bottom: 2rem;
+            border: 1px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        /* --- SEARCH BOX (Matching Inquiries) --- */
+        .search-container {
+            max-width: 450px; background: #fff; border-radius: 14px; padding: 4px 15px; 
+            display: flex; align-items: center; border: 1px solid #e2e8f0; transition: 0.3s;
+        }
+        .search-container:focus-within { border-color: var(--tms-primary); box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1); }
+        .search-container input { border: none; outline: none; width: 100%; padding: 10px; background: transparent; }
+
+        /* --- TRACKING CARDS --- */
+        .tracking-card {
+            background: white; border: none; border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05); overflow: hidden;
+        }
+        .tracking-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+
+        .loc-dot { 
+            height: 8px; width: 8px; background-color: #10b981; 
+            border-radius: 50%; display: inline-block; margin-right: 6px; 
+            animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); } 
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } 
+        }
+
+        .location-box { background-color: #f8fafc; border-radius: 16px; padding: 18px; border: 1px solid #f1f5f9; }
+        
+        .btn-update { 
+            border-radius: 12px; font-weight: 700; padding: 12px; transition: 0.3s;
+            background: var(--tms-primary); border: none;
+        }
+        .btn-update:hover { background: #3f37c9; transform: scale(1.02); }
+
+        .text-primary-soft { color: #4361ee; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-shield-check-fill text-primary me-2"></i> TMS PRO
+        </div>
+        <a href="admin_dashboard.html"><i class="bi bi-grid-1x2-fill me-3"></i> Dashboard</a>
+        <a href="manage_users.html"><i class="bi bi-people-fill me-3"></i> Users</a>
+        <a href="manage_shipments.html"><i class="bi bi-truck-flatbed me-3"></i> Shipments</a>
+        <a href="manage_payments.html"><i class="bi bi-credit-card-2-back me-3"></i> Payments</a>
+        <a href="manage_fleet.html"><i class="bi bi-truck me-3"></i> Fleet</a>
+        <a href="live_tracking.html" class="active"><i class="bi bi-geo-alt-fill me-3"></i> Tracking</a>
+        <a href="manage_contacts.html"><i class="bi bi-chat-left-dots-fill me-3"></i> Inquiries</a>
+        <div style="position: absolute; bottom: 20px; width: 100%;">
+            <a href="login.html" class="text-danger border-0"><i class="bi bi-power me-3"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="glass-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1">Fleet Telemetry</h3>
+                <p class="text-muted small mb-0"><i class="bi bi-broadcast text-danger small me-1"></i> Live Satellite Link: Monitoring active assets.</p>
+            </div>
+            <button class="btn btn-primary px-4 py-2 fw-bold shadow-sm" style="border-radius:12px;" onclick="loadTracking()">
+                <i class="bi bi-arrow-clockwise me-2"></i>REFRESH FEEDS
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="search-container">
+                <i class="bi bi-search text-muted"></i>
+                <input type="text" id="trackSearch" placeholder="Search by vehicle number or unit..." onkeyup="filterVehicles()">
+            </div>
+            <div class="text-muted small">System Health: <span class="text-success fw-bold">Optimized <i class="bi bi-check-all"></i></span></div>
+        </div>
+        
+        <div id="trackingList" class="row g-4">
+            </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loadTracking() {
+            try {
+                const res = await fetch('/api/vehicles?t=' + Date.now());
+                const vehicles = await res.json();
+                const activeVehicles = vehicles.filter(v => v.status === 'On Trip');
+
+                const container = document.getElementById('trackingList');
+                if(activeVehicles.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12 text-center mt-5 py-5">
+                            <i class="bi bi-geo text-muted opacity-25" style="font-size: 5rem;"></i>
+                            <h4 class="text-muted fw-bold mt-3">All Assets are Stationed</h4>
+                            <p class="text-muted">No active transit protocols detected.</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = activeVehicles.map(v => `
+                    <div class="col-md-6 col-lg-4 vehicle-item">
+                        <div class="card tracking-card p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-4">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark">${v.vehicleNumber}</h5>
+                                    <span class="text-muted small fw-medium text-uppercase" style="letter-spacing:1px;">${v.vehicleModel || 'Cargo Unit'}</span>
+                                </div>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2" style="border-radius: 10px;">
+                                    <span class="loc-dot"></span> LIVE
+                                </span>
+                            </div>
+                            
+                            <div class="location-box mb-4">
+                                <p class="small text-uppercase fw-bold text-muted mb-2" style="letter-spacing: 1px;">
+                                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> Current Coordinates
+                                </p>
+                                <p class="mb-0 fw-bold text-dark" style="font-size: 1.1rem;">${v.currentLocation || 'Awaiting Signal...'}</p>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-update w-100 shadow-sm text-white" onclick="updateLoc('${v._id}', '${v.vehicleNumber}')">
+                                <i class="bi bi-pencil-square me-2"></i>RELOCATE UNIT
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Telemetry link failed:", err);
+            }
+        }
+
+        function filterVehicles() {
+            const term = document.getElementById('trackSearch').value.toLowerCase();
+            document.querySelectorAll('.vehicle-item').forEach(card => {
+                const text = card.innerText.toLowerCase();
+                card.style.display = text.includes(term) ? '' : 'none';
+            });
+        }
+
+        async function updateLoc(id, vNum) {
+            const newLoc = prompt(`Manual Override: Enter new landmark for unit ${vNum}:`);
+            if(newLoc && newLoc.trim() !== "") {
+                try {
+                    const res = await fetch(`/api/vehicles/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ currentLocation: newLoc })
+                    });
+                    if(res.ok) loadTracking();
+                } catch (err) { alert("Signal lost."); }
+            }
+        }
+
+        window.onload = loadTracking;
+    </script>
+</body>
+</html>

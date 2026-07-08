@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Management | TMS Pro Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --tms-primary: #4361ee;
+            --tms-dark: #0b090a;
+            --sidebar-width: 260px;
+        }
+
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; color: #2b2d42; }
+
+        /* --- UNIFIED SIDEBAR --- */
+        .sidebar { 
+            height: 100vh; width: var(--sidebar-width); background: var(--tms-dark); 
+            color: white; position: fixed; top: 0; left: 0; padding-top: 2rem; z-index: 1000;
+        }
+        .sidebar-brand { padding: 0 1.5rem 2rem; color: white; font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; }
+        .sidebar a { 
+            color: #8d99ae; padding: 12px 1.5rem; display: flex; align-items: center; 
+            text-decoration: none; transition: 0.3s; border-right: 4px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active { 
+            color: white; background: rgba(255,255,255,0.05); border-right-color: var(--tms-primary);
+        }
+
+        .main-wrapper { margin-left: var(--sidebar-width); padding: 2.5rem; }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem; border-radius: 24px; margin-bottom: 2rem;
+            border: 1px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        /* --- SEARCH BOX --- */
+        .search-container {
+            max-width: 450px; background: #fff; border-radius: 14px; padding: 4px 15px; 
+            display: flex; align-items: center; border: 1px solid #e2e8f0; transition: 0.3s;
+        }
+        .search-container:focus-within { border-color: var(--tms-primary); box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1); }
+        .search-container input { border: none; outline: none; width: 100%; padding: 10px; background: transparent; }
+
+        .tms-card { 
+            background: white; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.02); 
+            border: 1px solid rgba(0,0,0,0.05); overflow: hidden;
+        }
+        .table thead th { background: #f8fafc; color: #64748b; font-size: 0.75rem; text-transform: uppercase; padding: 20px; letter-spacing: 1px;}
+        .table tbody td { padding: 18px 20px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        
+        /* Status & Payment Pills */
+        .pill { padding: 6px 14px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .bg-pending { background: #fef3c7; color: #d97706; }
+        .bg-transit { background: #dbeafe; color: #2563eb; }
+        .bg-delivered { background: #d1fae5; color: #059669; }
+        
+        .mode-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; }
+        .mode-online { background: rgba(67, 97, 238, 0.1); color: #4361ee; }
+        .mode-cod { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+
+        .btn-action { 
+            border-radius: 10px; width: 35px; height: 35px; 
+            display: inline-flex; align-items: center; justify-content: center; 
+            transition: 0.3s; border: 1px solid #e2e8f0; background: #fff;
+        }
+        .btn-action:hover { background: var(--tms-primary); color: white !important; border-color: var(--tms-primary); }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-brand"><i class="bi bi-shield-check-fill text-primary me-2"></i> TMS PRO</div>
+        <a href="admin_dashboard.html"><i class="bi bi-grid-1x2-fill me-3"></i> Dashboard</a>
+        <a href="manage_users.html"><i class="bi bi-people-fill me-3"></i> Users</a>
+        <a href="manage_shipments.html" class="active"><i class="bi bi-truck-flatbed me-3"></i> Shipments</a>
+        <a href="manage_payments.html"><i class="bi bi-credit-card-2-back me-3"></i> Payments</a>
+        <a href="manage_fleet.html"><i class="bi bi-truck me-3"></i> Fleet</a>
+        <a href="live_tracking.html"><i class="bi bi-geo-alt-fill me-3"></i> Tracking</a>
+        <a href="manage_contacts.html"><i class="bi bi-chat-left-dots-fill me-3"></i> Inquiries</a>
+        <div style="position: absolute; bottom: 20px; width: 100%;">
+            <a href="login.html" class="text-danger border-0"><i class="bi bi-power me-3"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="glass-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1">Shipment Management</h3>
+                <p class="text-muted small mb-0">Oversee dispatch protocols and delivery status.</p>
+            </div>
+            <button class="btn btn-primary px-4 py-2 fw-bold shadow-sm" style="border-radius:12px;" onclick="loadShipments()">
+                <i class="bi bi-arrow-clockwise me-2"></i>REFRESH HUB
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="search-container">
+                <i class="bi bi-search text-muted"></i>
+                <input type="text" id="sSearch" placeholder="Search Shipment ID or Customer..." onkeyup="loadShipments()">
+            </div>
+        </div>
+
+        <div class="tms-card">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Shipment ID</th>
+                            <th>Customer / Address</th>
+                            <th>Mode</th>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-dark text-white border-0"><h5>Manage Shipment Protocol</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body p-4">
+                    <input type="hidden" id="editObjId">
+                    
+                    <label class="small fw-bold text-muted mb-2">ASSIGN VEHICLE</label>
+                    <select id="eVehicle" class="form-select mb-3 py-2" style="border-radius: 10px;"></select>
+                    
+                    <label class="small fw-bold text-primary mb-2">TRANSIT STATUS</label>
+                    <select id="eStatus" class="form-select mb-3 py-2" style="border-radius: 10px;">
+                        <option value="Pending">Pending</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Delivered">Delivered</option>
+                    </select>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-primary w-100 py-3 fw-bold" onclick="submitEdit()" style="border-radius:12px;">APPLY CHANGES</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load Data
+        async function loadShipments() {
+            const search = document.getElementById('sSearch').value;
+            const res = await fetch(`/api/shipments?search=${search}&t=${Date.now()}`);
+            const data = await res.json();
+            
+            document.getElementById('sTableBody').innerHTML = data.map(s => {
+                const isCOD = s.paymentStatus && s.paymentStatus.includes("COD");
+                const modeHTML = isCOD ? 
+                    `<span class="mode-badge mode-cod">COD</span>` : 
+                    `<span class="mode-badge mode-online">Online</span>`;
+                
+                let statusClass = 'bg-pending';
+                if(s.status === 'In Transit') statusClass = 'bg-transit';
+                if(s.status === 'Delivered') statusClass = 'bg-delivered';
+
+                return `
+                <tr>
+                    <td><span class="fw-bold text-dark">#${s.shipmentID}</span></td>
+                    <td>
+                        <div class="fw-bold text-dark">${s.customerName}</div>
+                        <div class="small text-muted">${s.deliveryAddress.substring(0, 35)}...</div>
+                    </td>
+                    <td>${modeHTML}</td>
+                    <td><span class="badge bg-dark px-2 py-1">${s.assignedVehicle || 'Unassigned'}</span></td>
+                    <td><span class="pill ${statusClass}">${s.status}</span></td>
+                    <td class="text-end">
+                        <button class="btn btn-action text-primary me-1" onclick="openEdit('${s._id}','${s.status}','${s.assignedVehicle}')"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-action text-danger" onclick="del('${s._id}')"><i class="bi bi-trash3"></i></button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Open Edit Modal
+        async function openEdit(id, stat, currentVeh) {
+            document.getElementById('editObjId').value = id;
+            document.getElementById('eStatus').value = stat;
+
+            // Load Available Vehicles
+            const vRes = await fetch('/api/vehicles');
+            const vehicles = await vRes.json();
+            const vSelect = document.getElementById('eVehicle');
+            
+            // Allow the current vehicle even if its status is 'On Trip'
+            let options = `<option value="${currentVeh}">${currentVeh} (Currently Assigned)</option>`;
+            if (currentVeh === 'Unassigned') options = `<option value="Unassigned">-- Select Vehicle --</option>`;
+            
+            options += vehicles.filter(v => v.status === 'Available' && v.vehicleNumber !== currentVeh)
+                                .map(v => `<option value="${v.vehicleNumber}">${v.vehicleNumber}</option>`).join('');
+            
+            vSelect.innerHTML = options;
+
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+
+        // Submit Update
+        async function submitEdit() {
+            const id = document.getElementById('editObjId').value;
+            const stat = document.getElementById('eStatus').value;
+            const veh = document.getElementById('eVehicle').value;
+
+            // Trigger specific API logic for logistics flow
+            if (stat === 'Delivered') {
+                await fetch(`/api/complete-shipment/${id}`, { method: 'PUT' });
+            } else if (stat === 'In Transit' && veh !== 'Unassigned') {
+                await fetch(`/api/assign-shipment/${id}`, { 
+                    method: 'PUT', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ vehicleNumber: veh }) 
+                });
+            }
+
+            // General data update
+            await fetch(`/api/shipments/${id}`, { 
+                method: 'PUT', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({ status: stat, assignedVehicle: veh }) 
+            });
+            
+            location.reload();
+        }
+
+        // Delete Shipment
+        async function del(id) {
+            if(confirm("Permanently delete this shipment from infrastructure?")) {
+                await fetch(`/api/shipments/${id}`, { method: 'DELETE' });
+                loadShipments();
+            }
+        }
+
+        window.onload = loadShipments;
+    </script>
+</body>
+</html>

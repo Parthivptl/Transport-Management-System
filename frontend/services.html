@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | TMS Pro Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- GLOBAL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- STANDARDIZED HERO SECTION --- */
+        .services-header {
+            position: relative;
+            padding: 160px 0 120px;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(2, 6, 23, 0.75), rgba(2, 6, 23, 0.85)),
+                url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+
+        .stats-bar {
+            background: white;
+            border-radius: 30px;
+            margin-top: -60px; /* Overlaps the header slightly */
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            position: relative;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: left;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15);
+            border-color: #6366f1;
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border-radius: 40px;
+            padding: 80px 40px;
+            color: white;
+            margin: 80px 0;
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.3);
+        }
+
+        .fw-800 { font-weight: 800; }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <div class="bg-primary text-white rounded-3 p-2 me-2">
+                    <i class="bi bi-box-seize-fill"></i>
+                </div>
+                <span class="fw-bold fs-4 text-dark">TMS <span class="text-primary">PRO</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-grid-3x3-gap-fill fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="book_fleet.html">Book Fleet</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="track_shipment.html">Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="contact.html">Contact</a></li>
+                    <li class="nav-item ms-lg-4" id="auth-area">
+                        <a href="login.html" class="btn btn-dark px-4 py-2" style="border-radius: 12px;">Partner Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="services-header">
+        <div class="container reveal">
+            <h1 class="display-3 fw-800 mb-3">Our Expertise</h1>
+            <p class="lead opacity-75 mx-auto" style="max-width: 700px;">We provide end-to-end transport management solutions designed for the modern supply chain infrastructure.</p>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="stats-bar text-center reveal">
+            <div class="row g-4">
+                <div class="col-md-3 border-end">
+                    <h3 class="fw-bold text-primary mb-0">99.9%</h3>
+                    <small class="text-muted fw-bold">Uptime Reliability</small>
+                </div>
+                <div class="col-md-3 border-end">
+                    <h3 class="fw-bold text-primary mb-0">250+</h3>
+                    <small class="text-muted fw-bold">Active Fleet Units</small>
+                </div>
+                <div class="col-md-3 border-end">
+                    <h3 class="fw-bold text-primary mb-0">15M+</h3>
+                    <small class="text-muted fw-bold">Tons Delivered</small>
+                </div>
+                <div class="col-md-3">
+                    <h3 class="fw-bold text-primary mb-0">24/7</h3>
+                    <small class="text-muted fw-bold">Live Support</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5 mt-5">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-truck-flatbed"></i></div>
+                    <h4 class="fw-bold">Interstate Freight</h4>
+                    <p class="text-muted small mb-4">Seamless long-haul transportation across state borders with optimized fuel routes.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Full Truck Load (FTL)</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Scheduled Departures</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-radar"></i></div>
+                    <h4 class="fw-bold">Smart Tracking</h4>
+                    <p class="text-muted small mb-4">High-precision GPS telemetry with real-time temperature and humidity sensors.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Satellite Redundancy</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Geofencing Alerts</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-cpu-fill"></i></div>
+                    <h4 class="fw-bold">AI Route Optimization</h4>
+                    <p class="text-muted small mb-4">Automated dispatching engine that reduces carbon footprint and delivery time.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Traffic Prediction</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Dynamic Re-routing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-building-check"></i></div>
+                    <h4 class="fw-bold">Warehouse Integration</h4>
+                    <p class="text-muted small mb-4">Direct API integration with your existing WMS for automatic pickup requests.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Automated Docking</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Inventory Visibility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h4 class="fw-bold">Secure Freight</h4>
+                    <p class="text-muted small mb-4">Specialized transport for high-value goods with armored vehicles and multi-factor validation.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Biometric Verification</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Escort Services</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 reveal">
+                <div class="service-card shadow-sm">
+                    <div class="icon-box"><i class="bi bi-file-earmark-bar-graph"></i></div>
+                    <h4 class="fw-bold">Logistics Analytics</h4>
+                    <p class="text-muted small mb-4">Advanced reporting suite providing insights into fleet utilization and driver performance.</p>
+                    <ul class="list-unstyled small fw-bold">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-primary me-2"></i>Cost Analysis</li>
+                        <li><i class="bi bi-check2-circle text-primary me-2"></i>Performance KPIs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container text-center reveal">
+        <div class="cta-section">
+            <h2 class="fw-800 mb-4">Ready to optimize your supply chain?</h2>
+            <p class="mb-5 opacity-75">Join 500+ enterprises using TMS Pro for their logistics needs.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="book_fleet.html" class="btn btn-light px-5 py-3 fw-bold shadow-sm" style="border-radius: 12px;">Get Started</a>
+                <a href="contact.html" class="btn btn-outline-light px-5 py-3 fw-bold" style="border-radius: 12px;">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-dark">
+        <div class="container text-start">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-title">TMS <span class="text-primary">PRO</span></div>
+                    <p class="small opacity-50">Enterprise-level transport management infrastructure built for speed, safety, and transparency across global supply chains.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <i class="bi bi-linkedin fs-5"></i><i class="bi bi-twitter-x fs-5"></i><i class="bi bi-facebook fs-5"></i>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Platform</h6>
+                    <a href="services.html" class="footer-link">Fleet Hub</a>
+                    <a href="track_shipment.html" class="footer-link">Tracking</a>
+                    <a href="book_fleet.html" class="footer-link">Booking</a>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Company</h6>
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="contact.html" class="footer-link">Cntact Us</a>
+                    <a href="login.html" class="footer-link">Admin Access</a>
+                </div>
+               
+            </div>
+            <hr class="mt-5 border-secondary opacity-25">
+            <p class="text-center pt-4 small opacity-50">&copy; 2026 TMS Pro Infrastructure. Developed by Parth Dev.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        /* --- SCROLL REVEAL SCRIPT --- */
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        window.onload = () => {
+            reveal(); // Initialize on load
+            const userData = localStorage.getItem('tms_user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const authArea = document.getElementById('auth-area');
+                if (authArea) {
+                    authArea.innerHTML = `
+                        <span class="fw-bold text-dark me-3">Hi, ${user.name.split(' ')[0]}</span>
+                        <button onclick="localStorage.clear(); location.reload();" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</button>
+                    `;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

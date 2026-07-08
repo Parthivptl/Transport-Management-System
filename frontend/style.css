@@ -1,0 +1,288 @@
+/* --- 1. CORE RESET & ENTERPRISE VARIABLES --- */
+:root {
+    --primary: #6366f1; /* Indigo */
+    --primary-dark: #4f46e5;
+    --bg-dark: #020617; /* Slate Black */
+    --slate: #0f172a; /* Slate Dark */
+    --bg-light: #f8fafc; /* Slate Light */
+    --glass: rgba(255, 255, 255, 0.85);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--slate);
+    overflow-x: hidden;
+    line-height: 1.6;
+    padding-top: 90px; /* Space for fixed navbar */
+}
+
+/* --- 2. GLOBAL UI COMPONENTS --- */
+.pill { 
+    padding: 6px 14px; 
+    border-radius: 50px; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+}
+.bg-active { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+.bg-available { background: #d1fae5; color: #059669; }
+
+.btn-dispatch {
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    border-radius: 14px;
+    padding: 14px 28px; 
+    font-weight: 700; 
+    transition: var(--transition);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); 
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-dispatch:hover {
+    background: var(--primary-dark); 
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+    color: white;
+}
+
+.section-padding { padding: 100px 0; }
+.fw-800 { font-weight: 800; }
+.text-primary { color: var(--primary) !important; }
+
+/* --- 3. NAVIGATION (STANDARD GLASS) --- */
+.navbar {
+    backdrop-filter: blur(15px); 
+    -webkit-backdrop-filter: blur(15px);
+    background: var(--glass) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 18px 0; 
+    z-index: 1100; 
+    transition: var(--transition);
+}
+.navbar-brand { font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; }
+.nav-link { font-weight: 600; color: var(--slate) !important; opacity: 0.7; transition: 0.3s; }
+.nav-link:hover, .nav-link.active { opacity: 1; color: var(--primary) !important; }
+
+/* --- 4. HERO SECTIONS --- */
+.hero-wrap, .services-header, .track-hero, .hero-header {
+    position: relative; 
+    padding: 160px 0 120px; 
+    text-align: center; 
+    color: white;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-wrap, .services-header, .hero-header {
+    background: radial-gradient(circle at 0% 0%, var(--primary) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, var(--primary-dark) 0%, var(--bg-dark) 60%);
+    background-color: var(--bg-dark);
+}
+
+.track-hero {
+    background: radial-gradient(circle at top right, var(--primary), var(--bg-dark));
+}
+
+.hero-title {
+    font-weight: 800; 
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -2px; 
+    line-height: 1; 
+    margin-bottom: 20px;
+}
+
+/* --- 5. BREADCRUMBS --- */
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-flex;
+    padding: 8px 24px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    list-style: none;
+}
+.breadcrumb-item a { color: var(--primary); text-decoration: none; font-weight: 700; font-size: 0.85rem; }
+.breadcrumb-item.active { color: rgba(255, 255, 255, 0.6); padding-left: 10px; }
+
+/* --- 6. BOOKING ENGINE & FORM CONTROLS --- */
+.booking-section {
+    margin-top: -100px;
+    position: relative;
+    z-index: 100;
+    padding-bottom: 80px;
+}
+
+.booking-engine {
+    background: white;
+    border-radius: 32px;
+    padding: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 40px 80px rgba(2, 6, 23, 0.12);
+}
+
+.section-tag {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+.form-label {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+    display: block;
+}
+
+.input-group-custom {
+    background: #f1f5f9;
+    border-radius: 16px;
+    padding: 5px 18px;
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    margin-bottom: 20px;
+}
+
+.input-group-custom:focus-within {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.input-group-custom i {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.form-control-custom {
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding: 12px 0;
+    font-weight: 600;
+    color: var(--slate);
+    outline: none;
+}
+
+/* --- 7. OPTIMIZED SERVICE CARDS (IMAGE-BASED) --- */
+.optimized-card {
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 32px;
+    height: 400px; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    transition: var(--transition);
+    cursor: pointer;
+    background-color: var(--bg-dark); /* Fallback background */
+}
+
+.optimized-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: var(--transition);
+}
+
+.optimized-card .card-overlay {
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; /* Cover full card to allow flexible alignment */
+    background: linear-gradient(to top, rgba(2, 6, 23, 0.9) 0%, transparent 60%);
+    padding: 40px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end; /* Keep text at bottom by default */
+    text-align: left;
+    transition: var(--transition);
+    z-index: 5;
+}
+
+.optimized-card h4 { color: white; font-weight: 800; margin-bottom: 10px; transition: var(--transition); }
+.optimized-card p { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 0; opacity: 0; transition: var(--transition); transform: translateY(20px); }
+
+.optimized-card .book-now-trigger {
+    position: absolute; 
+    top: 45%; /* Position button slightly above dead center */
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0; 
+    z-index: 10;
+    transition: var(--transition);
+    pointer-events: none; /* Let the card click handle the link */
+}
+
+/* --- HOVER STATES (FIXED SPACING) --- */
+
+.optimized-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(99, 102, 241, 0.2); }
+
+.optimized-card:hover img { transform: scale(1.1); filter: blur(3px) brightness(0.6); }
+
+/* On hover, darken overlay and center text horizontally but keep it at the bottom */
+.optimized-card:hover .card-overlay { 
+    background: rgba(2, 6, 23, 0.7); 
+    text-align: center; 
+}
+
+/* Push text downward to make room for button above it */
+.optimized-card:hover h4 { transform: translateY(0px); } 
+.optimized-card:hover p { opacity: 1; transform: translateY(0px); margin-top: 5px; }
+
+/* Pop the button into view slightly above the text */
+.optimized-card:hover .book-now-trigger { 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1); 
+}
+
+/* --- 8. FOOTER (DEEP SPACE) --- */
+.footer-dark {
+    background: var(--bg-dark); 
+    color: #94a3b8; 
+    padding: 100px 0 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-title { color: white; font-weight: 800; margin-bottom: 25px; font-size: 1.3rem; }
+
+.footer-link { 
+    color: #64748b; 
+    text-decoration: none; 
+    display: block; 
+    margin-bottom: 12px; 
+    font-weight: 500; 
+    transition: 0.3s; 
+}
+
+.footer-link:hover { color: var(--primary); padding-left: 8px; }
+
+.newsletter-card { 
+    background: rgba(255, 255, 255, 0.03); 
+    border-radius: 24px; 
+    padding: 30px; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}

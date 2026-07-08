@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Fleet | TMS Pro Infrastructure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        /* --- GLOBAL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-header {
+            padding: 160px 0 100px;
+            text-align: center;
+            color: white;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+                url('https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .booking-engine {
+            background: white;
+            border-radius: 32px;
+            padding: 45px;
+            margin-top: -60px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- Input Styles with Font Awesome Icons --- */
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6366f1;
+            font-size: 1.1rem;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 14px 14px 14px 50px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .form-control-custom:focus {
+            border-color: #6366f1;
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .payment-option {
+            border: 2px solid #f1f5f9;
+            padding: 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: block;
+            background: white;
+            height: 100%;
+        }
+
+        .payment-option:hover {
+            background: #f8faff;
+            border-color: #cbd5e1;
+        }
+
+        .form-check-input:checked+.payment-option {
+            border-color: #6366f1;
+            background: #f0f1ff;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.05);
+        }
+
+        .btn-dispatch {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: 800;
+            width: 100%;
+            transition: 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-dispatch:hover {
+            background: #4f46e5;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .fw-800 {
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <div class="bg-primary text-white rounded-3 p-2 me-2">
+                    <i class="bi bi-box-seize-fill"></i>
+                </div>
+                <span class="fw-bold fs-4 text-dark">TMS <span class="text-primary">PRO</span></span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-grid-3x3-gap-fill fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2 active" href="book_fleet.html">Book Fleet</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="track_shipment.html">Tracking</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="contact.html">Contact</a></li>
+                    <li class="nav-item ms-lg-4" id="auth-area">
+                        <a href="login.html" class="btn btn-dark px-4 py-2" style="border-radius: 12px;">Partner
+                            Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-header">
+        <div class="container reveal">
+            <h1 class="fw-800 display-4">Initialize <span class="text-info">Shipment</span></h1>
+            <p class="lead opacity-75">Enterprise-Level Logistics Capacity • Dynamic Pricing Protocol</p>
+        </div>
+    </header>
+
+    <section class="container mb-5">
+    <div class="booking-engine reveal">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Customer Name</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-building-user"></i>
+                    <input type="text" id="custName" class="form-control-custom"
+                        placeholder="D-Mart / Corporate Name">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Contact Number</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <input type="text" id="custPhone" class="form-control-custom" placeholder="+91 XXXXX XXXXX">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Email Address (For Confirmation)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="custEmail" class="form-control-custom" 
+                        placeholder="example@gmail.com">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Cargo Weight (Tons)</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-weight-hanging"></i>
+                    <input type="number" id="shipWeight" class="form-control-custom" placeholder="Enter Weight"
+                        oninput="updatePrice()">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-bold">Destination</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <input type="text" id="shipAddr" class="form-control-custom"
+                        placeholder="Full Delivery Address">
+                </div>
+            </div>
+
+            <div class="col-12 py-3 text-center reveal">
+                <h3 class="fw-800 text-primary">PROTOCOL ESTIMATE: INR <span id="displayAmt">0</span></h3>
+                <small class="text-muted fw-bold">Rate: ₹3,000 per Metric Ton</small>
+            </div>
+
+            <div class="col-md-6 reveal">
+                <input class="form-check-input d-none" type="radio" name="payMethod" id="payRazor" value="Online"
+                    checked>
+                <label class="payment-option text-center" for="payRazor">
+                    <i class="fa-solid fa-credit-card mb-2 fs-4 text-primary"></i><br>
+                    <strong>Secure Online Payment</strong><br>
+                    <small class="text-muted">Instant Authorization</small>
+                </label>
+            </div>
+            <div class="col-md-6 reveal">
+                <input class="form-check-input d-none" type="radio" name="payMethod" id="payCOD" value="COD">
+                <label class="payment-option text-center" for="payCOD">
+                    <i class="fa-solid fa-money-bill-transfer mb-2 fs-4 text-success"></i><br>
+                    <strong>Cash on Delivery</strong><br>
+                    <small class="text-muted">Settlement at Destination</small>
+                </label>
+            </div>
+
+            <div class="col-12 mt-4 reveal">
+                <button class="btn-dispatch" onclick="handleBooking()" id="bookBtn">
+                    CONFIRM PROTOCOL & DOWNLOAD DELIVERY NOTE
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer class="footer-dark">
+        <div class="container text-start">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    <div class="footer-title">TMS <span class="text-primary">PRO</span></div>
+                    <p class="small opacity-50">Enterprise-level transport management infrastructure built for speed,
+                        safety, and transparency across global supply chains.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <i class="bi bi-linkedin fs-5"></i><i class="bi bi-twitter-x fs-5"></i><i
+                            class="bi bi-facebook fs-5"></i>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Platform</h6>
+                    <a href="services.html" class="footer-link">Fleet Hub</a>
+                    <a href="track_shipment.html" class="footer-link">Tracking</a>
+                    <a href="book_fleet.html" class="footer-link">Booking</a>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="footer-title small text-uppercase">Company</h6>
+                    <a href="about.html" class="footer-link">About Us</a>
+                    <a href="contact.html" class="footer-link">Cntact Us</a>
+                    <a href="login.html" class="footer-link">Admin Access</a>
+                </div>
+
+            </div>
+            <hr class="mt-5 border-secondary opacity-25">
+            <p class="text-center pt-4 small opacity-50">&copy; 2026 TMS Pro Infrastructure. Developed by Parth Dev.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* --- SCROLL REVEAL LOGIC --- */
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        window.onload = () => {
+            // Trigger first reveal manually
+            setTimeout(reveal, 100);
+
+            const userData = localStorage.getItem('tms_user');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const authArea = document.getElementById('auth-area');
+                if (authArea) {
+                    authArea.innerHTML = `
+                        <span class="fw-bold text-dark me-3">Hi, ${user.name.split(' ')[0]}</span>
+                        <button onclick="localStorage.clear(); location.reload();" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</button>
+                    `;
+                }
+                document.getElementById('custName').value = user.name;
+            }
+        }
+
+        const TON_RATE = 3000;
+        function updatePrice() {
+            const total = (document.getElementById('shipWeight').value || 0) * TON_RATE;
+            document.getElementById('displayAmt').innerText = total.toLocaleString('en-IN');
+            return total;
+        }
+
+        async function handleBooking() {
+            const method = document.querySelector('input[name="payMethod"]:checked').value;
+            const amount = updatePrice();
+            if (amount <= 0) return alert("⚠️ Please enter a valid cargo weight.");
+
+            if (method === "Online") {
+                const options = {
+                    "key": "rzp_test_SZ21GbYv5ejGpi",
+                    "amount": amount * 100,
+                    "currency": "INR",
+                    "name": "TMS PRO Infrastructure",
+                    "description": "Logistics Capacity Reservation",
+                    "handler": (res) => finalizeBooking(res.razorpay_payment_id, "Paid (Razorpay)")
+                };
+                new Razorpay(options).open();
+            } else {
+                if (confirm(`Confirm COD Protocol for INR ${amount.toLocaleString()}?`)) {
+                    finalizeBooking("COD-" + Date.now(), "Pending (COD)");
+                }
+            }
+        }
+
+       async function finalizeBooking(payId, payStatus) {
+    const btn = document.getElementById('bookBtn');
+    
+    // Generate a unique Shipment ID
+    const id = "TMS-" + Math.floor(100000 + Math.random() * 900000);
+    
+    // 1. Get the logged-in user info from localStorage
+    const userData = JSON.parse(localStorage.getItem('tms_user')) || {};
+    
+    // 2. Identify the Target Email (From Form Input OR Login Session)
+    // Priority: 1. Input field 'custEmail' | 2. Logged-in session | 3. Alert Error
+    const formEmail = document.getElementById('custEmail')?.value;
+    const recipientEmail = formEmail || userData.email;
+
+    if (!recipientEmail) {
+        alert("⚠️ Recipient Email Required: Please log in or enter an email address for the confirmation receipt.");
+        return; // Stop the process if we don't have an email
+    }
+
+    // 3. Prepare the data object
+    const data = {
+        shipmentID: id,
+        customerName: document.getElementById('custName').value,
+        customerEmail: recipientEmail.toLowerCase().trim(), // ✅ Dynamic Recipient
+        contactNumber: document.getElementById('custPhone').value,
+        weight: document.getElementById('shipWeight').value + " Tons",
+        deliveryAddress: document.getElementById('shipAddr').value,
+        paymentID: payId,
+        paymentStatus: payStatus,
+        status: "Pending"
+    };
+
+    // 4. Trigger Invoice Download (PDF generation)
+    generateInvoice({ ...data, amt: updatePrice() });
+
+    try {
+        // 5. Update UI to show Syncing status
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>SYNCING HUB...`;
+
+        // 6. POST to the API
+        const res = await fetch('/api/shipments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+            alert(`✅ Booking Success! Confirmation sent to: ${recipientEmail}`);
+            window.location.href = "track_shipment.html?id=" + id;
+        } else {
+            const errorData = await res.json();
+            alert("❌ Booking Failed: " + (errorData.error || "Unknown Error"));
+        }
+    } catch (err) { 
+        console.error("Sync Error:", err);
+        alert("📡 Connection Error: Cloud sync failed. Check your internet connection."); 
+    } finally { 
+        btn.disabled = false; 
+        btn.innerHTML = "CONFIRM PROTOCOL & DOWNLOAD INVOICE"; 
+    }
+}
+
+        function generateInvoice(d) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const totalAmountStr = d.amt.toString();
+
+            // Header - Proforma Title
+            doc.setFontSize(18); doc.setFont("helvetica", "bold");
+            doc.text("DELIVERY NOTE-CUM-PROFORMA-INVOICE", 105, 15, { align: 'center' });
+
+            // Brand Info
+            doc.setFontSize(24); doc.setTextColor(0, 0, 0);
+            doc.text("TMS PRO", 20, 30);
+
+            doc.setFontSize(10); doc.setFont("helvetica", "normal");
+            doc.text("AVENUE SUPERMARTS LTD (Logistics Div.)", 20, 38);
+            doc.text("Pardikande Surat, Navsari Road 48/A", 20, 43);
+            doc.text("Surat - 394230, Gujarat, INDIA", 20, 48);
+
+            // Right Detail Box
+            doc.rect(120, 25, 75, 30);
+            doc.setFont("helvetica", "bold");
+            doc.text("Invoice No / Date:", 125, 33);
+            doc.setFont("helvetica", "normal");
+            doc.text(`${d.shipmentID} / ${new Date().toLocaleDateString()}`, 125, 38);
+            doc.text("Delivery Type:", 125, 45);
+            doc.text("Doorstep Dispatch", 125, 50);
+
+            // Customer Section
+            doc.setFont("helvetica", "bold"); doc.text("CUSTOMER DETAILS:", 20, 65);
+            doc.setFont("helvetica", "normal");
+            doc.text("Client: " + d.customerName, 20, 72);
+            doc.text("Addr: " + d.deliveryAddress, 20, 77);
+            doc.text("Mob: " + d.contactNumber, 20, 82);
+
+            // AutoTable for Item Breakdown
+            doc.autoTable({
+                startY: 90,
+                head: [['Sr.', 'Description', 'Weight', 'UOM', 'Unit Rate', 'Total (INR)']],
+                body: [['1', 'Enterprise Fleet Dispatch Protocol', d.weight, 'TONS', '3000', totalAmountStr]],
+                theme: 'grid',
+                headStyles: { fillColor: [240, 240, 240], textColor: 0, fontStyle: 'bold' },
+                styles: { fontSize: 10, font: "helvetica" }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 15;
+
+            // Total & Status
+            doc.setFont("helvetica", "bold");
+            doc.text("GRAND TOTAL (INR):", 110, finalY);
+            doc.text("INR " + totalAmountStr, 160, finalY);
+
+            doc.setFontSize(9); doc.setFont("helvetica", "normal");
+            doc.text("Current Status: " + d.paymentStatus, 20, finalY);
+            doc.text("Place of Supply: Gujarat", 20, finalY + 5);
+
+            // Signature Section
+            const sigY = finalY + 40;
+            doc.line(20, sigY, 75, sigY); doc.text("Sign of Logistics Facility", 25, sigY + 5);
+            doc.line(130, sigY, 185, sigY); doc.text("Authorized Receiver", 140, sigY + 5);
+
+            // Watermark or Footer
+            doc.setFontSize(8); doc.setTextColor(150);
+            doc.text("System generated document - No physical signature required for electronic copy.", 105, 285, { align: 'center' });
+
+            doc.save(`Invoice_${d.shipmentID}.pdf`);
+        }
+    </script>
+</body>
+
+</html>
